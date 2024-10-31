@@ -1,6 +1,11 @@
 <template>
     <div class="max-w-2xl w-full bg-white p-8 rounded-lg shadow-md">
-        <h2 class="text-2xl font-bold mb-6">Chat Room</h2>
+        <div class="flex items-center justify-center gap-x-4">
+            <h2 class="text-2xl font-bold">Chat Room</h2>
+            <button @click="handleLogout"
+                class="py-2 px-4 bg-red-600 text-white font-medium rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">Logout</button>
+        </div>
+
         <div v-if="!connected" class="text-center text-gray-500">Connecting...</div>
         <div v-else>
             <div class="space-y-4 mb-6">
@@ -22,7 +27,7 @@
 // ES modules
 import { io } from "socket.io-client";
 import axios from 'axios'
-import { mapState } from 'pinia';
+import { mapActions, mapState } from 'pinia';
 import { useAuthStore } from '@/stores/auth.js'
 export default {
     data() {
@@ -37,7 +42,7 @@ export default {
         this.connectWebSocket();
         // Get chat history
         try {
-            const { data } = await axios.get('http://172.23.1.218:4000/v1/chats')
+            const { data } = await axios.get(`${process.env.VUE_APP_SERVER}/v1/chats`)
             this.messages.push(...data)
             console.log(data)
         } catch (err) {
@@ -47,7 +52,7 @@ export default {
     },
     methods: {
         connectWebSocket() {
-            console.log("Trying to connect!")
+            // console.log("Trying to connect!")
             // const token = localStorage.getItem('token');
             // if (!token) {
             //   this.$router.push('/');
@@ -55,7 +60,7 @@ export default {
             // }
             // Get all chat histories from Backend
 
-            this.socket = io('http://172.23.1.218:4000', {
+            this.socket = io('http://localhost:4000', {
                 // auth: {
                 //   token: `Bearer ${token}`
                 // },
@@ -88,6 +93,13 @@ export default {
             };
             this.socket.emit('send-message', message);
             this.newMessage = '';
+        },
+        ...mapActions(useAuthStore, ['logout']),
+        async handleLogout() {
+            // Clear JWT, Username, Discount Socket
+            await this.logout()
+            this.socket.disconnect()
+            this.$router.push('/')
         }
     },
     computed: {

@@ -38,6 +38,10 @@ export const useAuthStore = defineStore('auth', {
                 console.log(error)
                 alert('Login failed');
             }
+        },
+        async logout() {
+            this.token = ""
+            this.user = {}
         }
     },
 })

@@ -20,5 +20,24 @@ export const useAuthStore = defineStore('auth', {
             })
             this.user = response.data
         },
+        async login(email, password) {
+            try {
+                const response = await axios.post(`${process.env.VUE_APP_SERVER}/auth/login`, {
+                    email: email,
+                    password: password
+                });
+
+                const { data } = await axios.get(`${process.env.VUE_APP_SERVER}/auth/me`, {
+                    headers: {
+                        authorization: `Bearer ${response.data.token}`
+                    }
+                });
+                this.token = response.data.token
+                this.user = data
+            } catch (error) {
+                console.log(error)
+                alert('Login failed');
+            }
+        }
     },
 })

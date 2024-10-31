@@ -10,7 +10,6 @@ export default {
         // Exchange code for JWT token
         try {
             await this.googleLogin(code)
-            
             this.$router.push('/chat')
         } catch (err) {
             console.log(err)

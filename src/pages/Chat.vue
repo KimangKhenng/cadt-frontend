@@ -39,6 +39,7 @@ export default {
         try {
             const { data } = await axios.get('http://172.23.1.218:4000/v1/chats')
             this.messages.push(...data)
+            console.log(data)
         } catch (err) {
             console.log(err.message)
         }

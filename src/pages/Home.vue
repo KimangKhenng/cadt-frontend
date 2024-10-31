@@ -1,7 +1,7 @@
 <template>
     <div class="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
         <h2 class="text-2xl font-bold mb-6">Login</h2>
-        <form @submit.prevent="login" class="space-y-4">
+        <form @submit.prevent="passwordLogin" class="space-y-4">
             <div>
                 <label for="email" class="block text-sm font-medium text-gray-700">Username:</label>
                 <input v-model="email" id="username"
@@ -28,7 +28,8 @@
     </div>
 </template>
 <script>
-import axios from 'axios'
+import { mapActions } from 'pinia';
+import { useAuthStore } from '@/stores/auth.js'
 export default {
     data() {
         return {
@@ -37,31 +38,14 @@ export default {
         };
     },
     methods: {
-        async login() {
-            try {
-                const response = await axios.post('http://172.23.1.218:4000/v1/auth/login', {
-                    email: this.email,
-                    password: this.password
-                });
-                localStorage.setItem('token', response.data.token)
-                const { data } = await axios.get('http://172.23.1.218:4000/v1/auth/me', {
-                    headers: {
-                        authorization: `Bearer ${response.data.token}`
-                    }
-                });
-                // console.log(data)
-                localStorage.setItem('user', JSON.stringify(data));
-                // const user = await axios.get(`/users/${}`)
-                this.$router.push('/chat');
-            } catch (error) {
-                console.log(error)
-                alert('Login failed');
-            }
-        },
         googleLogin() {
-            console.log(process.env.VUE_APP_GOOGLE_CLIENT_ID)
             const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.VUE_APP_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.VUE_APP_GOOGLE_REDIRECT_URL}&response_type=code&scope=profile%20email&access_type=offline`;
             window.open(googleAuthUrl, "_self")
+        },
+        ...mapActions(useAuthStore, ['login']),
+        async passwordLogin() {
+            await this.login(this.email, this.password)
+            this.$router.push('/chat')
         }
     }
 }

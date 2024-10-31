@@ -42,7 +42,7 @@ export default {
         this.connectWebSocket();
         // Get chat history
         try {
-            const { data } = await axios.get(`${process.env.VUE_APP_SERVER}/chats`)
+            const { data } = await axios.get(`${process.env.VUE_APP_SERVER}/v1/chats`)
             this.messages.push(...data)
             console.log(data)
         } catch (err) {
@@ -60,7 +60,7 @@ export default {
             // }
             // Get all chat histories from Backend
 
-            this.socket = io('http://localhost:4000', {
+            this.socket = io(`${process.env.VUE_APP_SERVER}`, {
                 // auth: {
                 //   token: `Bearer ${token}`
                 // },

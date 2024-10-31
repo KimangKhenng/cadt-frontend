@@ -10,10 +10,10 @@ export const useAuthStore = defineStore('auth', {
     // state: () => ({ count: 0 })
     actions: {
         async googleLogin(code) {
-            let { data } = await axios.get(`${process.env.VUE_APP_SERVER}/auth/google-callback?code=${code}`)
+            let { data } = await axios.get(`${process.env.VUE_APP_SERVER}/v1/auth/google-callback?code=${code}`)
             this.token = data.token
             // console.log(this.token)
-            let response = await axios.get(`${process.env.VUE_APP_SERVER}/auth/me`, {
+            let response = await axios.get(`${process.env.VUE_APP_SERVER}/v1/auth/me`, {
                 headers: {
                     authorization: `Bearer ${this.token}`
                 }
@@ -22,12 +22,12 @@ export const useAuthStore = defineStore('auth', {
         },
         async login(email, password) {
             try {
-                const response = await axios.post(`${process.env.VUE_APP_SERVER}/auth/login`, {
+                const response = await axios.post(`${process.env.VUE_APP_SERVER}/v1/auth/login`, {
                     email: email,
                     password: password
                 });
 
-                const { data } = await axios.get(`${process.env.VUE_APP_SERVER}/auth/me`, {
+                const { data } = await axios.get(`${process.env.VUE_APP_SERVER}/v1/auth/me`, {
                     headers: {
                         authorization: `Bearer ${response.data.token}`
                     }

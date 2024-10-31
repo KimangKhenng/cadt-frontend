@@ -42,7 +42,7 @@ export default {
         this.connectWebSocket();
         // Get chat history
         try {
-            const { data } = await axios.get(`${process.env.VUE_APP_SERVER}/v1/chats`)
+            const { data } = await axios.get(`${process.env.VUE_APP_SERVER}/chats`)
             this.messages.push(...data)
             console.log(data)
         } catch (err) {

@@ -4,7 +4,17 @@ import axios from 'axios'
 
 export const useAuthStore = defineStore('auth', {
     state: () => {
-        return { token: '', user: {} }
+        return {
+            token: '',
+            user: {}
+        }
+    },
+    getters: {
+        isAuthenticated: (state) => {
+            // is JWT valid?
+            // is JWT expired?
+            // return true
+        }
     },
     // could also be defined as
     // state: () => ({ count: 0 })

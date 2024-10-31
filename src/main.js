@@ -19,6 +19,14 @@ const router = createRouter({
     history: createWebHistory()
 })
 
+router.beforeEach(async (to, from) => {
+    // Homework
+    if (!isAuthenticated) {
+        // redirect the user to the login page
+        return { name: 'Home' }
+    }
+})
+
 const app = createApp(App)
 app.use(router)
 app.use(pinia)

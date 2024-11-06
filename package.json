@@ -12,6 +12,7 @@
     "axios": "^1.7.7",
     "core-js": "^3.8.3",
     "install": "^0.13.0",
+    "jwt-decode": "^4.0.0",
     "npm": "^10.9.0",
     "pinia": "^2.2.5",
     "postcss": "^8",
@@ -44,7 +45,8 @@
       "parser": "@babel/eslint-parser"
     },
     "rules": {
-      "vue/multi-word-component-names": "off"
+      "vue/multi-word-component-names": "off",
+      "no-unused-vars": "off"
     }
   },
   "browserslist": [

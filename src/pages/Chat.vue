@@ -2,7 +2,8 @@
     <div class="max-w-2xl w-full bg-white p-8 rounded-lg shadow-md">
         <div class="flex items-center justify-center gap-x-4">
             <h2 class="text-2xl font-bold">Chat Room</h2>
-            <button @click="handleLogout"
+            <router-link to="/users"> TO Users </router-link>
+            <button v-if="isAuthenticated" @click="handleLogout"
                 class="py-2 px-4 bg-red-600 text-white font-medium rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">Logout</button>
         </div>
 
@@ -103,7 +104,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(useAuthStore, ['user'])
+        ...mapState(useAuthStore, ['user', 'isAuthenticated'])
     }
 }
 </script>

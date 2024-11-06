@@ -7,11 +7,13 @@ import Chat from '@/pages/Chat.vue'
 import './assets/tailwind.css'
 import OAuthGoogle from '@/pages/OAuthGoogle.vue'
 import { createPinia } from 'pinia'
+import User from '@/pages/User.vue'
 const pinia = createPinia()
 const routes = [
     { path: '/', component: Home },
     { path: '/chat', component: Chat },
-    { path: '/google-callback', component: OAuthGoogle }
+    { path: '/google-callback', component: OAuthGoogle },
+    { path: '/users', component: User }
 ]
 
 const router = createRouter({
@@ -19,13 +21,13 @@ const router = createRouter({
     history: createWebHistory()
 })
 
-router.beforeEach(async (to, from) => {
-    // Homework
-    if (!isAuthenticated) {
-        // redirect the user to the login page
-        return { name: 'Home' }
-    }
-})
+// router.beforeEach(async (to, from) => {
+//     // Homework
+//     if (!isAuthenticated) {
+//         // redirect the user to the login page
+//         return { name: 'Home' }
+//     }
+// })
 
 const app = createApp(App)
 app.use(router)
